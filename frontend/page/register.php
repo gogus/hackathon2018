@@ -37,6 +37,11 @@ require_once __DIR__ . '/../header.php';
             </div>
 
             <div class="mb-3">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            </div>
+
+            <div class="mb-3">
                 <label for="address">Home Address</label>
                 <input type="text" class="form-control" id="home-address" placeholder="1234 Main St" required>
             </div>
