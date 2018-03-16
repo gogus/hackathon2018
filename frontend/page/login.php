@@ -5,7 +5,7 @@ require_once __DIR__ . '/../header.php';
 ?>
 
     <body class="text-center page-signin">
-    <form class="form-signin">
+    <form class="form-signin" action="/?action=dashboard" method="POST">
         <img class="mb-4" src="/media/img/work.svg" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
