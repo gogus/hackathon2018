@@ -4,9 +4,11 @@ namespace Gtw\Action;
 
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Query\Builder;
+use Interop\Container\Exception\ContainerException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Container;
+use Slim\Http\Request;
 use Slim\Http\Response;
 
 class GetUserByUsername
@@ -18,6 +20,8 @@ class GetUserByUsername
 
     /**
      * @param Container $container
+     *
+     * @throws ContainerException
      */
     public function __construct(Container $container)
     {
@@ -26,9 +30,15 @@ class GetUserByUsername
         $this->table = $db->table('user');
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args = [])
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return ResponseInterface
+     */
+    public function __invoke(Request $request, Response $response, array $args = [])
     {
-        /** @var Response $response */
         $user = $this->table->where('username', '=', $args['username'])->get();
 
         return $response->withJson($user);
