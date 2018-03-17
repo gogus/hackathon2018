@@ -73,6 +73,11 @@ return [
         'action' => \Gtw\Action\SaveTrip::class
     ],            
 
+    'join-trip' => [
+        'pattern' => '/user/trip/join/{tripId}/{userId}',
+        'action' => \Gtw\Action\JoinTrip::class
+    ],
+
     'get-user-transportation-options' => [
         'pattern' => '/user/transport-options/{userId}',
         'action' => \Gtw\Action\GetOptions::class
