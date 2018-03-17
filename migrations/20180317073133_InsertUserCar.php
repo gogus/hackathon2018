@@ -32,9 +32,9 @@ class InsertUserCar extends Migration
      */
     public function down()
     {
-        $user = $this->getDatabaseManager();
-        $user->table('car')->delete('725a7f14-ed1a-45e2-b82c-24736c673429');
-        $user->table('car')->delete('221d67d2-04dc-4993-a243-591661ad8642');
+        $db = $this->getDatabaseManager();
+        $db->table('car')->where('user_id', '=','725a7f14-ed1a-45e2-b82c-24736c673429')->delete();
+        $db->table('car')->where('user_id', '=','221d67d2-04dc-4993-a243-591661ad8642')->delete();
     }
 
     /**
