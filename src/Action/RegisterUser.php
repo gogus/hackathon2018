@@ -24,6 +24,11 @@ class RegisterUser
     protected $address;
 
     /**
+     * @var Builder
+     */
+    protected $points;
+
+    /**
      * @param Container $container
      *
      * @throws ContainerException
@@ -34,6 +39,7 @@ class RegisterUser
         $db = $container->get('db');
         $this->user = $db->table('user');
         $this->address = $db->table('address');
+        $this->points = $db->table('points');
     }
 
     /**
@@ -49,6 +55,10 @@ class RegisterUser
         $this->user->insert($user->toArray());
         $address = UserAddress::create($user->getId(), $request->getParsedBody());
         $this->address->insert($address->toArray());
+        $this->points->insert([
+            'user_id' => $user->getId(),
+            'points' => 0
+        ]);
 
         return $response->withJson($user->toArray());
     }

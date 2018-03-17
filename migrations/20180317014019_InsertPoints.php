@@ -38,11 +38,11 @@ class InsertPoints extends Migration
      */
     public function down()
     {
-        $user = $this->getDatabaseManager();
-        $user->table('points')->where('user_id', '=','725a7f14-ed1a-45e2-b82c-24736c673429')->delete();
-        $user->table('points')->where('user_id', '=','2929d8a4-7c3a-4fbc-a564-126aece71447')->delete();
-        $user->table('points')->where('user_id', '=','e1346b39-671c-4f46-93e6-41b70a482594')->delete();
-        $user->table('points')->where('user_id', '=','221d67d2-04dc-4993-a243-591661ad8642')->delete();
+        $db = $this->getDatabaseManager();
+        $db->table('points')->where('user_id', '=','725a7f14-ed1a-45e2-b82c-24736c673429')->delete();
+        $db->table('points')->where('user_id', '=','2929d8a4-7c3a-4fbc-a564-126aece71447')->delete();
+        $db->table('points')->where('user_id', '=','e1346b39-671c-4f46-93e6-41b70a482594')->delete();
+        $db->table('points')->where('user_id', '=','221d67d2-04dc-4993-a243-591661ad8642')->delete();
     }
 
 
