@@ -2,7 +2,11 @@
 
 namespace Gtw\Action;
 
-use Gtw\Entity\UserAddress;
+use Gtw\RewardEngine\RewardEngine;
+use Gtw\RewardEngine\RideOption;
+use Gtw\RewardEngine\TransportType;
+use Gtw\Service\BikePointsService;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Query\Builder;
 use Interop\Container\Exception\ContainerException;
@@ -12,16 +16,6 @@ use Slim\Http\Response;
 
 class GetOptions
 {
-
-    private $transportTypes = [
-//        'walk',
-        'bike',
-        'bus',
-        'train',
-        'shared-car',
-        'own-car'
-    ];
-
     /**
      * @var Builder
      */
@@ -32,7 +26,15 @@ class GetOptions
      */
     protected $carTable;
 
-    protected $db;
+    /**
+     * @var BikePointsService
+     */
+    private $bikePointsService;
+
+    /**
+     * @var RewardEngine
+     */
+    private $rewardEngine;
 
     /**
      * @param Container $container
@@ -43,24 +45,25 @@ class GetOptions
     {
         /** @var Manager $db */
         $db = $container->get('db');
-        $this->db = $container->get('db');
         $this->addressTable = $db->table('address');
         $this->carTable = $db->table('car');
-        $this->bikeRepo = $container->get('bikepoints_around_user');
+        $this->bikePointsService = $container->get(BikePointsService::class);
+        $this->rewardEngine = $container->get(RewardEngine::class);
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
      *
      * @return Response
+     * @throws GuzzleException
      */
     public function __invoke(Request $request, Response $response, array $args)
     {
+        $options = [];
         $addressData = $this->addressTable->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
         $carData = $this->carTable->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
-
         $getDirection = $this->getDirection($addressData);
 
 
@@ -68,27 +71,21 @@ class GetOptions
          * self car
          */
         if (!empty($carData->user_id)) {
-            $options[] =
-                array_merge(
-                    $getDirection,
-                    [
-                        'option_description' => 'Want to go by Car ? it\'s ok you can still go green by doing car share ',
-                        'transport_type' => $this->transportTypes[4],
-                        'reward_base' => $this->getRewardBase($this->transportTypes[4]),
-                        'reward_bonuses' => [
-                            [
-                                'bonus_amount' => 0,
-                                'bonus_type' => null
-                            ]
-                        ],
-                    ]
-                );
+            $option = array_merge(
+                $getDirection,
+                [
+                    'option_description' => 'Want to go by Car ? it\'s ok you can still go green by doing car share ',
+                    'transport_type' => TransportType::OWN_CAR
+                ]
+            );
+            $option = $this->populateReward($option);
+            $options[] = $option;
         }
 
         /**
          * shared  car if any in the area
          */
-        $nearByCars = $this->db->table('car')->where('user_id', '!=', $args['userId'])->get();
+        $nearByCars = $this->carTable->where('user_id', '!=', $args['userId'])->get();
 
         $usersWithCars = [];
 
@@ -97,7 +94,7 @@ class GetOptions
             $usersWithCars[] = $nearCar->user_id;
         }
 
-        $coodinatesData = $this->db->table('address')->whereIn('user_id', $usersWithCars)->get();
+        $coodinatesData = $this->addressTable->whereIn('user_id', $usersWithCars)->get();
 
         $shareCar = false;
 
@@ -111,42 +108,32 @@ class GetOptions
         }
 
         if ($shareCar) {
-            $options[] = array_merge(
+            $option = array_merge(
                 $getDirection,
                 [
                     'option_description' => 'Go green by doing car share!',
-                    'transport_type' => $this->transportTypes[3],
-                    'reward_base' => $this->getRewardBase($this->transportTypes[3]),
-                    'reward_bonuses' => [
-                        [
-                            'bonus_amount' => 1,
-                            'bonus_type' => 'raining'
-                        ]
-                    ],
+                    'transport_type' => TransportType::SHARED_CAR,
                 ]
             );
+            $option = $this->populateReward($option);
+            $options[] = $option;
         }
 
         //get  the bikes near me
         //if not available don/'t show bike'
-        $bikes = $this->bikeRepo->getData(['userId'=>$addressData->user_id,'place'=>'home']);
+        $bikes = $this->bikePointsService->getBikePointsAroundUserPlace($addressData->user_id,'home');
 
         if($bikes){
-            $options[] =
+            $option =
                 array_merge(
                     $getDirection,
                     [
                         'option_description' => 'Riding the bike can improve your health and also can help you loose extra pund in the same time improving your life your also getting rewards',
-                        'transport_type' => $this->transportTypes[0],
-                        'reward_base' => $this->getRewardBase($this->transportTypes[0]),
-                        'reward_bonuses' => [
-                            [
-                                'bonus_amount' => 1,
-                                'bonus_type' => 'raining'
-                            ]
-                        ],
+                        'transport_type' => TransportType::BIKE,
                     ]
                 );
+            $option = $this->populateReward($option);
+            $options[] = $option;
         }
 
         return $response->withJson($options);
@@ -177,33 +164,20 @@ class GetOptions
             ];
         }
     }
-    
-    private function getRewardBase($transportType)
-    {
-        $rewardBase = [
-            'bike'=>10,
-            'shared-car' => 5,
-            'own-car' => 0,
-        ];
-
-        return $rewardBase[$transportType];
-    }
-
 
     /**
-     * Calculates the great-circle distance between two points, with
-     * the Haversine formula.
-     * @param float $latitudeFrom Latitude of start point in [deg decimal]
-     * @param float $longitudeFrom Longitude of start point in [deg decimal]
-     * @param float $latitudeTo Latitude of target point in [deg decimal]
-     * @param float $longitudeTo Longitude of target point in [deg decimal]
-     * @param float $earthRadius Mean earth radius in [m]
+     * Calculates the great-circle distance between two points, with the Haversine formula.
+     *
+     * @param float  $latitudeFrom  Latitude of start point in [deg decimal]
+     * @param float  $longitudeFrom Longitude of start point in [deg decimal]
+     * @param float  $latitudeTo    Latitude of target point in [deg decimal]
+     * @param float  $longitudeTo   Longitude of target point in [deg decimal]
+     * @param int    $earthRadius   Mean earth radius in [m]
+     *
      * @return float Distance between points in [m] (same as earthRadius)
      */
-
     private function checkDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000)
     {
-        // convert from degrees to radians
         $latFrom = deg2rad($latitudeFrom);
         $lonFrom = deg2rad($longitudeFrom);
         $latTo = deg2rad($latitudeTo);
@@ -212,7 +186,30 @@ class GetOptions
         $lonDelta = $lonTo - $lonFrom;
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
                 cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+
         return $angle * $earthRadius;
+    }
+
+    /**
+     * @param array $option
+     *
+     * @throws GuzzleException
+     *
+     * @return array
+     */
+    private function populateReward(array $option)
+    {
+        $reward = $this->rewardEngine->determineReward(new RideOption($option['transport_type']));
+        $option['reward_base'] = $reward->getBase();
+        $option['reward_bonuses'] = [];
+        foreach ($reward->getBonuses() as $bonus) {
+            $option['reward_bonuses'][] = [
+                'bonus_amount' => $bonus->getPoints(),
+                'bonus_type' => $bonus->getType(),
+            ];
+        }
+
+        return $option;
     }
 
 

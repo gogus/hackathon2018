@@ -2,6 +2,8 @@
 
 namespace Gtw\Action;
 
+use Gtw\Service\BikePointsService;
+use GuzzleHttp\Exception\GuzzleException;
 use Interop\Container\Exception\ContainerException;
 use Slim\Container;
 use Slim\Http\Request;
@@ -10,10 +12,9 @@ use Slim\Http\Response;
 class GetBikePointsAround
 {
     /**
-     *
-     * @var \Gtw\Api\Repository\BikePointAroundUser
+     * @var BikePointsService
      */
-    protected $repository;
+    protected $service;
 
     /**
      * @param Container $container
@@ -22,18 +23,23 @@ class GetBikePointsAround
      */
     public function __construct(Container $container)
     {
-        $this->repository = $container->get('bikepoints_around_user');
+        $this->service = $container->get(BikePointsService::class);
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
+     * @throws ContainerException
+     * @throws GuzzleException
      *
      * @return Response
      */
     public function __invoke(Request $request, Response $response, array $args = [])
     {
-        return $this->repository->getData($args);
+        $bikePointsAroundUserPlace = $this->service->getBikePointsAroundUserPlace($args['userId'], $args['place']);
+
+        return $response->withJson($bikePointsAroundUserPlace);
     }
 }

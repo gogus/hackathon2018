@@ -1,12 +1,12 @@
 <?php
 
-namespace Gtw\Api\Client;
+namespace Gtw\OpenData;
 
 use GuzzleHttp\ClientInterface as Guzzle;
 use Interop\Container\Exception\ContainerException;
 use Slim\Container;
 
-abstract class ClientAbstract
+abstract class ApiClientAbstract
 {
     /**
      * @var Guzzle

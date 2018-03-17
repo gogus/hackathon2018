@@ -1,22 +1,47 @@
 <?php
 
-return [
-    'db' => function ($container) {
-        $capsule = new \Illuminate\Database\Capsule\Manager;
-        $capsule->addConnection($container['settings']['db']);
+use Gtw\OpenData\BikePointApiClient;
+use Gtw\OpenData\WeatherApiClient;
+use Gtw\RewardEngine\RewardEngine;
+use Gtw\RewardEngine\Rule\RainBiking;
+use Gtw\Service\BikePointsService;
+use Gtw\Service\WeatherService;
+use GuzzleHttp\Client;
+use Illuminate\Database\Capsule\Manager;
+use Slim\Container;
 
+return [
+    'db' => function (Container $container) {
+        $capsule = new Manager;
+        $capsule->addConnection($container['settings']['db']);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
 
         return $capsule;
     },
     'guzzle' => function () {
-        return new \GuzzleHttp\Client();
+        return new Client();
     },
-    'bikepoints_around_client' => function ($container) {
-        return new Gtw\Api\Client\BikePointAround($container);
+    BikePointsService::class => function (Container $container) {
+        /** @var Manager $db */
+        $db = $container->get('db');
+
+        return new BikePointsService(
+            $db->table('address'),
+            new BikePointApiClient($container)
+        );
     },
-    'bikepoints_around_user' => function ($container) {
-        return new Gtw\Api\Repository\BikePointAroundUser($container);
+    WeatherService::class => function (Container $container) {
+        return new WeatherService(
+            new WeatherApiClient($container)
+        );
+    },
+    RewardEngine::class => function (Container $container) {
+        return new RewardEngine(
+            [
+                new RainBiking(),
+            ],
+            $container->get(WeatherService::class)
+        );
     }
 ];

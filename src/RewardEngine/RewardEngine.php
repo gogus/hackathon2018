@@ -3,6 +3,8 @@
 namespace Gtw\RewardEngine;
 
 use Gtw\RewardEngine\Rule\AbstractBonusRewardRule;
+use Gtw\Service\WeatherService;
+use GuzzleHttp\Exception\GuzzleException;
 
 class RewardEngine
 {
@@ -12,23 +14,32 @@ class RewardEngine
     private $rules;
 
     /**
+     * @var WeatherService
+     */
+    private $weatherService;
+
+    /**
      * @param AbstractBonusRewardRule[] $rules
+     * @param WeatherService            $weatherService
      *
      */
-    public function __construct(array $rules)
+    public function __construct(array $rules, WeatherService $weatherService)
     {
         $this->rules = $rules;
+        $this->weatherService = $weatherService;
     }
 
     /**
-     * @param RideOption            $option
-     * @param ChallengingConditions $conditions
+     * @param RideOption $option
+     *
+     * @throws GuzzleException
      *
      * @return Reward
      */
-    public function determineReward(RideOption $option, ChallengingConditions $conditions)
+    public function determineReward(RideOption $option)
     {
         $reward = new Reward($this->calculateBase($option));
+        $conditions = new ChallengingConditions($this->weatherService->getCurrentWeatherConditions(),false);
         $reward->addBonuses($this->calculateBonuses($option, $conditions));
 
         return $reward;
