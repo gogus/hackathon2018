@@ -4,7 +4,7 @@
 <script src="//maps.google.com/maps/api/js?sensor=true&libraries=places&key=AIzaSyD_k3nyu4lTraCWMIoK0FFd3yRH_o2_Ovc"></script>
 <script type="text/javascript" src="/media/js/gmaps.js"></script>
 <script src="/media/js/bootstrap.min.js"></script>
-<script src="/media/js/apiClient.js"></script>
+<script src="/media/js/apiClient.js?<?= time() ?>"></script>
 
 <script>
     var map;
