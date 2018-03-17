@@ -57,4 +57,10 @@ return [
         'pattern' => '/user/car/{userId}',
         'action' => \Gtw\Action\SaveUserCar::class
     ],
+
+    'get-bikepoints-around' => [
+        'pattern' => '/user/bikepoints/around/{userId}',
+        'action' => \Gtw\Action\GetBikePointsAround::class
+    ],
+
 ];
