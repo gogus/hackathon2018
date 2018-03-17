@@ -46,4 +46,15 @@ return [
         'pattern' => '/user/register',
         'action' => \Gtw\Action\RegisterUser::class
     ],
+
+    'create-user-car' => [
+        'pattern' => '/user/car/{userId}',
+        'action' => \Gtw\Action\GetUserCar::class
+    ],
+
+    'save-user-schedule' => [
+        'method' => 'POST',
+        'pattern' => '/user/car/{userId}',
+        'action' => \Gtw\Action\SaveUserCar::class
+    ],
 ];
