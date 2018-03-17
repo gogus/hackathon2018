@@ -18,7 +18,7 @@ class CreateUserCar extends Migration
         $schemaBuilder->create('car', function (Blueprint $table) {
             $table->uuid('user_id');
             $table->boolean('have_car');
-            $table->integer('available_seats',2);
+            $table->integer('available_seats');
 
             $table->primary('user_id');
 

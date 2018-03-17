@@ -1,153 +1,252 @@
 {
-	"info": {
-		"name": "GTW",
-		"_postman_id": "5fad5995-ec36-45e1-b239-67b69789bda7",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
+	"id": "5fb384e3-90c4-46aa-af8e-754359474261",
+	"name": "GTW",
+	"description": null,
+	"auth": null,
+	"events": null,
+	"variables": null,
+	"order": [
+		"f5366cd3-d939-4a4c-97f5-bda6a5b6e7c2",
+		"98468893-0ceb-4832-a965-bf0eecda7ffa",
+		"dcfb2408-540e-40be-8471-f376d3cefdde",
+		"2bef4733-e5bd-414f-aa95-454531a8d333",
+		"ef5c53b0-8425-44f4-8282-a039fbff4308",
+		"1213f1dd-b41e-4fe8-9e0f-1f5104c68c81",
+		"f928819f-89c0-4ed9-819b-e71556d1f66b",
+		"e0078ebd-d982-4498-8aff-89453a6674ed",
+		"902d56eb-1ce0-4627-afbe-4330a44b7d4f"
+	],
+	"folders_order": [],
+	"folders": [],
+	"requests": [
 		{
-			"name": "Register User",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"username\": \"xavier\",\n\t\"password\": \"xavier\",\n\t\"first_name\": \"Xavier\",\n\t\"last_name\": \"Bettel\"\n}"
+			"id": "1213f1dd-b41e-4fe8-9e0f-1f5104c68c81",
+			"name": "Save the car of the user ",
+			"url": "http://localhost:8080/index.php/user/car/221d67d2-04dc-4993-a243-591661ad8642",
+			"description": "",
+			"data": [
+				{
+					"key": "",
+					"value": "",
+					"type": "text",
+					"enabled": false,
+					"description": ""
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/user/register",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"user"
-					]
+				{
+					"key": "have_car",
+					"value": "1",
+					"type": "text",
+					"enabled": true,
+					"description": ""
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"key": "available_seats",
+					"value": "2",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"dataMode": "params",
+			"headerData": [],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
 		},
 		{
-			"name": "Authenticate User",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"email\": \"mike@gtw.lu\",\n\t\"password\": \"mike\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/user/auth",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"user",
-						"auth"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get User Address",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/api/user/address/725a7f14-ed1a-45e2-b82c-24736c673429",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"user",
-						"address",
-						"725a7f14-ed1a-45e2-b82c-24736c673429"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
+			"id": "2bef4733-e5bd-414f-aa95-454531a8d333",
 			"name": "Update User Points",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "points",
-							"value": "31337",
-							"description": "",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/user/points/725a7f14-ed1a-45e2-b82c-24736c673429",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"user",
-						"points",
-						"725a7f14-ed1a-45e2-b82c-24736c673429"
-					]
-				},
-				"description": ""
-			},
-			"response": []
+			"url": "http://localhost:8080/api/user/points/725a7f14-ed1a-45e2-b82c-24736c673429",
+			"description": null,
+			"data": [
+				{
+					"key": "points",
+					"value": "31337",
+					"type": "text"
+				}
+			],
+			"dataMode": "params",
+			"headerData": [],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": null,
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
 		},
 		{
+			"id": "902d56eb-1ce0-4627-afbe-4330a44b7d4f",
+			"name": "get the User car",
+			"url": "http://localhost:8080/index.php/user/car/221d67d2-04dc-4993-a243-591661ad8642",
+			"description": "",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "98468893-0ceb-4832-a965-bf0eecda7ffa",
+			"name": "Authenticate User",
+			"url": "http://localhost:8080/api/user/auth",
+			"description": null,
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": null,
+			"folder": null,
+			"rawModeData": "{\n\t\"email\": \"mike@gtw.lu\",\n\t\"password\": \"mike\"\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "dcfb2408-540e-40be-8471-f376d3cefdde",
+			"name": "Get User Address",
+			"url": "http://localhost:8080/api/user/address/725a7f14-ed1a-45e2-b82c-24736c673429",
+			"description": null,
+			"data": [],
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": null,
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "e0078ebd-d982-4498-8aff-89453a6674ed",
+			"name": "get the User Schedule",
+			"url": "http://localhost:8080/index.php/user/schedule/221d67d2-04dc-4993-a243-591661ad8642",
+			"description": "",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "ef5c53b0-8425-44f4-8282-a039fbff4308",
 			"name": "Get User Points",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/api/user/points/725a7f14-ed1a-45e2-b82c-24736c673429",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"user",
-						"points",
-						"725a7f14-ed1a-45e2-b82c-24736c673429"
-					]
+			"url": "http://localhost:8080/api/user/points/725a7f14-ed1a-45e2-b82c-24736c673429",
+			"description": null,
+			"data": [],
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": null,
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "f5366cd3-d939-4a4c-97f5-bda6a5b6e7c2",
+			"name": "Register User",
+			"url": "http://localhost:8080/api/user",
+			"description": null,
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": null,
+			"folder": null,
+			"rawModeData": "{\n\t\"username\": \"xavier\",\n\t\"password\": \"xavier\",\n\t\"first_name\": \"Xavier\",\n\t\"last_name\": \"Bettel\"\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "f928819f-89c0-4ed9-819b-e71556d1f66b",
+			"name": "save User schedule",
+			"url": "http://localhost:8080/index.php/user/schedule/221d67d2-04dc-4993-a243-591661ad8642",
+			"description": "",
+			"data": [
+				{
+					"key": "\"user_id",
+					"value": "",
+					"type": "text",
+					"enabled": false,
+					"description": ""
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"key": "flex_h",
+					"value": "true",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "flex_interval",
+					"value": "1",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "schedule_interval_start",
+					"value": "07:45:00",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "schedule_interval_end",
+					"value": "17:45:00",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"dataMode": "params",
+			"headerData": [],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
 		}
 	]
 }

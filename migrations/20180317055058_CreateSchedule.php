@@ -18,9 +18,10 @@ class CreateSchedule extends Migration
         $schemaBuilder->create('schedule', function (Blueprint $table) {
             $table->uuid('user_id');
             $table->boolean('flex_h');
-            $table->integer('flex_interval',2);
+            $table->integer('flex_interval');
             $table->time('schedule_interval_start');
             $table->time('schedule_interval_end');
+            $table->primary('user_id');
 
             $table->engine = 'InnoDB';
             $table->charset = 'utf8';

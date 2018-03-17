@@ -13,7 +13,7 @@ require_once __DIR__ . '/../header.php';
         <label for="inputPassword" class="sr-only">Password</label>
         <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <button class="btn btn-lg btn-primary btn-block" style="margin-top: 10px;" onclick="window.location.href = '/?action=register'">Register</button>
+        <button class="btn btn-lg btn-primary btn-block" style="margin-top: 10px;" onclick=" event.preventDefault(); window.location.href = '/?action=register'">Register</button>
         <h5></h5>
         <p class="mt-5 mb-3 text-muted">&copy; Whatever 2018</p>
     </form>
