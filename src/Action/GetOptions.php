@@ -45,6 +45,7 @@ class GetOptions
     {
         /** @var Manager $db */
         $db = $container->get('db');
+        $this->db = $container->get('db');
         $this->addressTable = $db->table('address');
         $this->carTable = $db->table('car');
         $this->bikePointsService = $container->get(BikePointsService::class);
@@ -52,9 +53,9 @@ class GetOptions
     }
 
     /**
-     * @param Request  $request
+     * @param Request $request
      * @param Response $response
-     * @param array    $args
+     * @param array $args
      *
      * @return Response
      * @throws GuzzleException
@@ -65,7 +66,6 @@ class GetOptions
         $addressData = $this->addressTable->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
         $carData = $this->carTable->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
         $getDirection = $this->getDirection($addressData);
-
 
         /**
          * self car
@@ -82,10 +82,40 @@ class GetOptions
             $options[] = $option;
         }
 
+        $carNearByOption = $this->getNearByCar($getDirection, $addressData, $args['userId']);
+        if (!empty($carNearByOption)) {
+            $options[] = $carNearByOption;
+        }
+
+        //get  the bikes near me
+        //if not available don/'t show bike'
+        $bikes = $this->bikePointsService->getBikePointsAroundUserPlace($addressData->user_id, 'home');
+
+        if ($bikes) {
+            $option =
+                array_merge(
+                    $getDirection,
+                    [
+                        'option_description' => 'Riding the bike can improve your health and also can help you loose extra pund in the same time improving your life your also getting rewards',
+                        'transport_type' => TransportType::BIKE,
+                    ]
+                );
+            $option = $this->populateReward($option);
+            $options[] = $option;
+        }
+
+        return $response->withJson($options);
+    }
+
+
+    private function getNearByCar($getDirection, $addressData, $userId)
+    {
+        $options = [];
         /**
          * shared  car if any in the area
          */
-        $nearByCars = $this->carTable->where('user_id', '!=', $args['userId'])->get();
+
+        $nearByCars = $this->db->table('car')->where('user_id', '<>', $userId)->get();
 
         $usersWithCars = [];
 
@@ -94,7 +124,7 @@ class GetOptions
             $usersWithCars[] = $nearCar->user_id;
         }
 
-        $coodinatesData = $this->addressTable->whereIn('user_id', $usersWithCars)->get();
+        $coodinatesData = $this->db->table('address')->whereIn('user_id', $usersWithCars)->get();
 
         $shareCar = false;
 
@@ -119,25 +149,9 @@ class GetOptions
             $options[] = $option;
         }
 
-        //get  the bikes near me
-        //if not available don/'t show bike'
-        $bikes = $this->bikePointsService->getBikePointsAroundUserPlace($addressData->user_id,'home');
-
-        if($bikes){
-            $option =
-                array_merge(
-                    $getDirection,
-                    [
-                        'option_description' => 'Riding the bike can improve your health and also can help you loose extra pund in the same time improving your life your also getting rewards',
-                        'transport_type' => TransportType::BIKE,
-                    ]
-                );
-            $option = $this->populateReward($option);
-            $options[] = $option;
-        }
-
-        return $response->withJson($options);
+        return $options;
     }
+
 
     /**
      * setting the direction by time
@@ -168,11 +182,11 @@ class GetOptions
     /**
      * Calculates the great-circle distance between two points, with the Haversine formula.
      *
-     * @param float  $latitudeFrom  Latitude of start point in [deg decimal]
-     * @param float  $longitudeFrom Longitude of start point in [deg decimal]
-     * @param float  $latitudeTo    Latitude of target point in [deg decimal]
-     * @param float  $longitudeTo   Longitude of target point in [deg decimal]
-     * @param int    $earthRadius   Mean earth radius in [m]
+     * @param float $latitudeFrom Latitude of start point in [deg decimal]
+     * @param float $longitudeFrom Longitude of start point in [deg decimal]
+     * @param float $latitudeTo Latitude of target point in [deg decimal]
+     * @param float $longitudeTo Longitude of target point in [deg decimal]
+     * @param int $earthRadius Mean earth radius in [m]
      *
      * @return float Distance between points in [m] (same as earthRadius)
      */
