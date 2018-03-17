@@ -3,6 +3,7 @@
 use Gtw\OpenData\BikePointApiClient;
 use Gtw\OpenData\WeatherApiClient;
 use Gtw\RewardEngine\RewardEngine;
+use Gtw\RewardEngine\Rule\ParticipatingInCarShare;
 use Gtw\RewardEngine\Rule\RainBiking;
 use Gtw\Service\BikePointsService;
 use Gtw\Service\WeatherService;
@@ -40,6 +41,7 @@ return [
         return new RewardEngine(
             [
                 new RainBiking(),
+                new ParticipatingInCarShare(),
             ],
             $container->get(WeatherService::class)
         );
