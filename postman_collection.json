@@ -14,7 +14,8 @@
 		"1213f1dd-b41e-4fe8-9e0f-1f5104c68c81",
 		"f928819f-89c0-4ed9-819b-e71556d1f66b",
 		"e0078ebd-d982-4498-8aff-89453a6674ed",
-		"902d56eb-1ce0-4627-afbe-4330a44b7d4f"
+		"902d56eb-1ce0-4627-afbe-4330a44b7d4f",
+		"a60de649-b838-4850-9090-d6b920cf5bf7"
 	],
 	"folders_order": [],
 	"folders": [],
@@ -119,6 +120,23 @@
 			"folder": null,
 			"rawModeData": "{\n\t\"email\": \"mike@gtw.lu\",\n\t\"password\": \"mike\"\n}",
 			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "a60de649-b838-4850-9090-d6b920cf5bf7",
+			"name": "get transaporation Options",
+			"url": "http://localhost:8080/index.php/user/transport-options/221d67d2-04dc-4993-a243-591661ad8642",
+			"description": "endpoint for the bonus and data for transportation ",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
 			"pathVariables": {}
 		},
 		{

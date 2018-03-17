@@ -63,4 +63,9 @@ return [
         'action' => \Gtw\Action\GetBikePointsAround::class
     ],
 
+    'get-user-transportation-options' => [
+        'pattern' => '/user/transport-options/{userId}',
+        'action' => \Gtw\Action\GetOptions::class
+    ],
+
 ];
