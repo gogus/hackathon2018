@@ -35,7 +35,7 @@ return [
         'action' => \Gtw\Action\GetUserSchedule::class
     ],
 
-    'create-user-schedule' => [
+    'save-user-schedule' => [
         'method' => 'POST',
         'pattern' => '/user/schedule/{userId}',
         'action' => \Gtw\Action\SaveUserSchedule::class
@@ -47,7 +47,7 @@ return [
         'action' => \Gtw\Action\RegisterUser::class
     ],
 
-    'create-user-car' => [
+    'get-user-car' => [
         'pattern' => '/user/car/{userId}',
         'action' => \Gtw\Action\GetUserCar::class
     ],
