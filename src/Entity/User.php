@@ -14,7 +14,7 @@ final class User
     /**
      * @var string
      */
-    private $username;
+    private $email;
 
     /**
      * @var string
@@ -32,15 +32,15 @@ final class User
     private $lastName;
 
     /**
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param string $firstName
      * @param string $lastName
      */
-    public function __construct($username, $password, $firstName, $lastName)
+    public function __construct($email, $password, $firstName, $lastName)
     {
         $this->id = Uuid::uuid4();
-        $this->username = $username;
+        $this->email = $email;
         $this->password = $password;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -54,7 +54,7 @@ final class User
     public static function create(array $data)
     {
         return new self(
-            $data['username'],
+            $data['email'],
             $data['password'],
             $data['first_name'],
             $data['last_name']
@@ -75,13 +75,21 @@ final class User
     }
 
     /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return array
      */
     public function toArray()
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
+            'email' => $this->email,
             'password' => $this->password,
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,

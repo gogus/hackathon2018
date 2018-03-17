@@ -2,6 +2,7 @@
 
 namespace Gtw\Action;
 
+use Gtw\Entity\UserAddress;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Query\Builder;
 use Interop\Container\Exception\ContainerException;
@@ -37,8 +38,9 @@ class GetUserAddress
      */
     public function __invoke(Request $request, Response $response, array $args = [])
     {
-        $user = $this->table->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
+        $addressData = $this->table->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
+        $address = UserAddress::existing((array)$addressData);
 
-        return $response->withJson($user);
+        return $response->withJson($address->toArray());
     }
 }

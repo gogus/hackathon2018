@@ -37,13 +37,21 @@
 			"response": []
 		},
 		{
-			"name": "Get User by Username",
+			"name": "Authenticate User",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"mike@gtw.lu\",\n\t\"password\": \"mike\"\n}"
+				},
 				"url": {
-					"raw": "http://localhost:8080/api/user/mike",
+					"raw": "http://localhost:8080/api/user/auth",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -52,7 +60,7 @@
 					"path": [
 						"api",
 						"user",
-						"mike"
+						"auth"
 					]
 				},
 				"description": ""

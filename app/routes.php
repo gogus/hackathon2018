@@ -7,9 +7,11 @@ return [
             return $res->withJson(['status' => 'OK']);
         }
     ],
-    'get-user-by-username' => [
-        'pattern' => '/user/{username}',
-        'action' => \Gtw\Action\GetUserByUsername::class
+
+    'authenticate-user' => [
+        'method' => 'POST',
+        'pattern' => '/user/auth',
+        'action' => \Gtw\Action\AuthenticateUser::class
     ],
 
     'get-user-address' => [
@@ -31,6 +33,6 @@ return [
     'register-user' => [
         'method' => 'POST',
         'pattern' => '/user',
-        'action' => \Gtw\Action\RegisterUser::class,
+        'action' => \Gtw\Action\RegisterUser::class
     ],
 ];

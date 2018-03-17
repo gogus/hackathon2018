@@ -11,7 +11,7 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class GetUserByUsername
+class AuthenticateUser
 {
     /**
      * @var Builder
@@ -40,10 +40,17 @@ class GetUserByUsername
     public function __invoke(Request $request, Response $response, array $args = [])
     {
         $userData = $this->table
-            ->where('username', '=', $args['username'])
+            ->where([
+                'email' => $request->getParsedBodyParam('email'),
+                'password' => $request->getParsedBodyParam('password')
+            ])
             ->limit(1)
             ->get()
             ->first();
+
+        if (null === $userData) {
+            return $response->withJson(['status' => 'Forbidden'], 403);
+        }
 
         $user = User::existing((array)$userData);
 

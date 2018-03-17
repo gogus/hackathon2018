@@ -3,6 +3,7 @@
 namespace Gtw\Action;
 
 use Gtw\Entity\User;
+use Gtw\Entity\UserAddress;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Query\Builder;
 use Interop\Container\Exception\ContainerException;
@@ -15,7 +16,12 @@ class RegisterUser
     /**
      * @var Builder
      */
-    protected $table;
+    protected $user;
+
+    /**
+     * @var Builder
+     */
+    protected $address;
 
     /**
      * @param Container $container
@@ -26,7 +32,8 @@ class RegisterUser
     {
         /** @var Manager $db */
         $db = $container->get('db');
-        $this->table = $db->table('user');
+        $this->user = $db->table('user');
+        $this->address = $db->table('address');
     }
 
     /**
@@ -39,7 +46,9 @@ class RegisterUser
     public function __invoke(Request $request, Response $response, array $args = [])
     {
         $user = User::create($request->getParsedBody());
-        $this->table->insert($user->toArray());
+        $this->user->insert($user->toArray());
+        $address = UserAddress::create($user->getId(), $request->getParsedBody());
+        $this->address->insert($address->toArray());
 
         return $response->withJson($user->toArray());
     }
