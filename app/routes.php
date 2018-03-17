@@ -28,4 +28,15 @@ return [
         'action' => \Gtw\Action\PatchUserPoints::class
     ],
 
+    'get-user-schedule' => [
+        'pattern' => '/user/schedule/{userId}',
+        'action' => \Gtw\Action\GetUserSchedule::class
+    ],
+
+    'create-user-schedule' => [
+        'method' => 'POST',
+        'pattern' => '/user/schedule/{userId}',
+        'action' => \Gtw\Action\SaveUserSchedule::class
+    ],
+
 ];
