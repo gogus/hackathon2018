@@ -9,6 +9,10 @@ use Slim\Http\Response;
 
 class GetBikePointsAround
 {
+    /**
+     *
+     * @var \Gtw\Api\Repository\BikePointAroundUser
+     */
     protected $repository;
 
     /**
