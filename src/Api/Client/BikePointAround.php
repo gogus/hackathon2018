@@ -2,12 +2,20 @@
 
 namespace Gtw\Api\Client;
 
-class BikePointAround extends ClientAbstract implements ClientInterface
+class BikePointAround extends ClientAbstract
 {
     public function getData($params) {
-        $res = $this->client->request('GET',
-            'https://api.tfl.lu/v1/BikePoint/around/' . $params['lon'] .'/' . $params['lat'] . '/' . $params['radius']);
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $result = $this->client->request(
+            'GET',
+            sprintf(
+                'https://api.tfl.lu/v1/BikePoint/around/%s/%s/%s',
+                $params['lon'],
+                $params['lat'],
+                $params['radius']
+            )
+        );
 
-        return $res->getBody()->getContents();
+        return $result->getBody()->getContents();
     }
 }

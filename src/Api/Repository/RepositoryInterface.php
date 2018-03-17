@@ -2,10 +2,12 @@
 
 namespace Gtw\Api\Repository;
 
-use Slim\Container;
-
-interface RepositoryInterface {
-    public function __construct(Container $container);
-
+interface RepositoryInterface
+{
+    /**
+     * @param mixed $params
+     *
+     * @return mixed
+     */
     public function getData($params);
 }

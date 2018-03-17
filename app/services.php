@@ -10,7 +10,7 @@ return [
 
         return $capsule;
     },
-    'guzzle' => function ($container) {
+    'guzzle' => function () {
         return new \GuzzleHttp\Client();
     },
     'bikepoints_around_client' => function ($container) {
