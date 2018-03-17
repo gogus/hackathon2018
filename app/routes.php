@@ -59,7 +59,7 @@ return [
     ],
 
     'get-bikepoints-around' => [
-        'pattern' => '/user/bikepoints/around/{userId}',
+        'pattern' => '/user/bikepoints/around/{place}/{userId}',
         'action' => \Gtw\Action\GetBikePointsAround::class
     ],
 

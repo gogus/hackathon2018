@@ -8,6 +8,6 @@ class BikePointAround extends ClientAbstract implements ClientInterface
         $res = $this->client->request('GET',
             'https://api.tfl.lu/v1/BikePoint/around/' . $params['lon'] .'/' . $params['lat'] . '/' . $params['radius']);
 
-        return $res->getBody();
+        return $res->getBody()->getContents();
     }
 }
