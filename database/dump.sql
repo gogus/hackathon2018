@@ -31,3 +31,16 @@ INSERT INTO `address` (`user_id`, `home_address`, `work_address`, `home_geo`, `w
 ('2929d8a4-7c3a-4fbc-a564-126aece71447', "Route d'Arlon, Luxembourg", '44 Avenue John F. Kennedy, Luxembourg', '', '','', ''),
 ('e1346b39-671c-4f46-93e6-41b70a482594', 'Luxemburger Straße, Trier, Germany', '44 Avenue John F. Kennedy, Luxembourg', '', '','', ''),
 ('221d67d2-04dc-4993-a243-591661ad8642', 'Luxembourg Central Station, Luxembourg City, Luxembourg', '44 Avenue John F. Kennedy, Luxembourg', '', '','', '');
+
+
+CREATE TABLE `points`
+(
+  `user_id` VARCHAR(100) NOT NULL,
+  `points` INT(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
+
+
+INSERT INTO points VALUES ('725a7f14-ed1a-45e2-b82c-24736c673429',4),
+('2929d8a4-7c3a-4fbc-a564-126aece71447',12),
+('e1346b39-671c-4f46-93e6-41b70a482594',20),
+('221d67d2-04dc-4993-a243-591661ad8642',13);
