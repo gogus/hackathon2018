@@ -12,7 +12,7 @@ class InsertUserCar extends Migration
     public function up()
     {
 
-        $this->getDatabaseManager()->table('schedule')->insert([
+        $this->getDatabaseManager()->table('car')->insert([
             [
                 'user_id' => '725a7f14-ed1a-45e2-b82c-24736c673429',
                 'have_car' => true,
@@ -32,9 +32,9 @@ class InsertUserCar extends Migration
      */
     public function down()
     {
-        $user = $this->getDatabaseManager()->table('schedule');
-        $user->where('user_id', '=','725a7f14-ed1a-45e2-b82c-24736c673429');
-        $user->where('user_id', '=','221d67d2-04dc-4993-a243-591661ad8642');
+        $user = $this->getDatabaseManager();
+        $user->table('car')->delete('725a7f14-ed1a-45e2-b82c-24736c673429');
+        $user->table('car')->delete('221d67d2-04dc-4993-a243-591661ad8642');
     }
 
     /**

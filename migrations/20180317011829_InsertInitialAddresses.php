@@ -52,10 +52,10 @@ class InsertInitialAddresses extends Migration
     {
         $user = $this->getDatabaseManager()->table('address');
 
-        $user->where('user_id', '=','725a7f14-ed1a-45e2-b82c-24736c673429');
-        $user->where('user_id', '=','2929d8a4-7c3a-4fbc-a564-126aece71447');
-        $user->where('user_id', '=','e1346b39-671c-4f46-93e6-41b70a482594');
-        $user->where('user_id', '=','221d67d2-04dc-4993-a243-591661ad8642');
+        $user->table('address')->delete('725a7f14-ed1a-45e2-b82c-24736c673429');
+        $user->table('address')->delete('2929d8a4-7c3a-4fbc-a564-126aece71447');
+        $user->table('address')->delete('e1346b39-671c-4f46-93e6-41b70a482594');
+        $user->table('address')->delete('221d67d2-04dc-4993-a243-591661ad8642');
     }
 
     /**
