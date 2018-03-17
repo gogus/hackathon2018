@@ -39,7 +39,7 @@ class GetUserByUsername
      */
     public function __invoke(Request $request, Response $response, array $args = [])
     {
-        $user = $this->table->where('username', '=', $args['username'])->get();
+        $user = $this->table->where('username', '=', $args['username'])->limit(1)->get()->first();
 
         return $response->withJson($user);
     }

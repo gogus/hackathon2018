@@ -35,7 +35,7 @@ class PatchUserPoints
                 'points' => $request->getParam('points')
             ]);
 
-        $user = $this->table->where('user_id', '=', $args['userId'])->get();
+        $user = $this->table->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
 
         return $response->withJson($user);
     }
