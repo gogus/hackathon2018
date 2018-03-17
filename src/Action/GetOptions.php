@@ -31,7 +31,7 @@ class GetOptions
      * @var Builder
      */
     protected $carTable;
-    
+
     /**
      * @param Container $container
      *
@@ -62,25 +62,59 @@ class GetOptions
 
         $transportType = $this->getRandomTransportType();
 
+        $getDirection = $this->getDirection($addressData);
 
         $options = [
-            [
+            array_merge(
+                $getDirection,
+                [
+                    'option_description' => 'Riding the bike can improve your health and also can help you loose extra pund in the same time improving your life your also getting rewards',
+                    'transport_type' => $transportType,
+                    'reward_base' => $this->getRewardBase($transportType),
+                    'reward_bonuses' => [
+                        [
+                            'bonus_amount' => 1,
+                            'bonus_type' => 'raining'
+                        ]
+                    ],
+                ]
+            ),
+            array_merge(
+                $getDirection,
+                [
+                    'option_description' => 'Want to go by Car ? it\'s ok you can still go green by doing car share ',
+                    'transport_type' => $transportType,
+                    'reward_base' => $this->getRewardBase($transportType),
+                    'reward_bonuses' => [
+                        [
+                            'bonus_amount' => 1,
+                            'bonus_type' => 'raining'
+                        ]
+                    ],
+                ]
+            ),
+        ];
+
+        return $response->withJson($options);
+    }
+
+    private function getDirection($addressData)
+    {
+        if (date('H') > 1 && date('H') > 15) {
+            return [
                 'origin_lat' => $addressData->home_geo_lat,
                 'origin_lon' => $addressData->home_geo_long,
                 'dest_lat' => $addressData->work_geo_lat,
                 'dest_lon' => $addressData->work_geo_long,
-                'transport_type' => $transportType,
-                'reward_base' => $this->getRewardBase($transportType),
-                'reward_bonuses' => [
-                    [
-                        'bonus_amount' => 1,
-                        'bonus_type' => 'raining'
-                    ]
-                ],
-            ]
-        ];
-
-        return $response->withJson($options);
+            ];
+        } else {
+            return [
+                'origin_lat' => $addressData->work_geo_lat,
+                'origin_lon' => $addressData->work_geo_long,
+                'dest_lat' => $addressData->home_geo_lat,
+                'dest_lon' => $addressData->home_geo_long,
+            ];
+        }
     }
 
     /**
