@@ -45,6 +45,41 @@
                 
                 localStorage.setItem('userAddress', JSON.stringify(result));
             });
+
+            $("#velohModal").on('shown.bs.modal', function(){
+
+                $.ajax({
+                    type: 'GET',
+                    url: document.api_url + 'api/user/bikepoints/around/home/' + userData.id,
+                    cache: false,
+                    dataType: "json",
+                    contentType: "application/json"
+                })
+                .fail(function(result) {
+                    alert('Invalid response from API.');
+                })
+                .done(function(result) {
+                    var userAddress = JSON.parse(window.localStorage.getItem('userAddress'));
+
+                    map = new GMaps({
+                        div: '#map',
+                        lat: userAddress.home_geo_lat,
+                        lng: userAddress.home_geo_long
+                    });
+
+                    $.each(result.features, function( index, value ) {
+                        console.log(value.geometry.coordinates);
+                        map.addMarker({
+                            lat: value.geometry.coordinates[1],
+                            lng: value.geometry.coordinates[0],
+                            title: 'Velo station',
+                            click: function(e) {
+                                window.location.href = '/?action=ride&token=' + window.btoa('{"points": 7, "lat": "' + value.geometry.coordinates[1] + '", "lng": "' + value.geometry.coordinates[0] + '", "jackpot": true}')
+                            }
+                        });
+                    });
+                });
+            });
         }
 
         if (window.location.href.includes('register')) {
@@ -105,8 +140,14 @@
                 lat: -12.043333,
                 lng: -77.028333
             });
+
+            if (lat === null) {
+                lat = addressData.home_geo_lat;
+                lng = addressData.home_geo_long;
+            }
+
             map.travelRoute({
-                origin: [addressData.home_geo_lat, addressData.home_geo_long],
+                origin: [lat, lng],
                 destination: [addressData.work_geo_lat, addressData.work_geo_long],
                 travelMode: 'biking',
                 step: function(e){
@@ -122,8 +163,13 @@
             $('#confirm-btn').click(function(e){
                 e.preventDefault();
 
+                if (lat === null) {
+                    lat = addressData.home_geo_lat;
+                    lng = addressData.home_geo_long;
+                }
+
                 map.travelRoute({
-                    origin: [addressData.home_geo_lat, addressData.home_geo_long],
+                    origin: [lat, lng],
                     destination: [addressData.work_geo_lat, addressData.work_geo_long],
                     travelMode: 'biking',
                     step: function(e){
