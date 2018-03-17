@@ -29,6 +29,11 @@ class RegisterUser
     protected $points;
 
     /**
+     * @var Builder
+     */
+    protected $car;
+
+    /**
      * @param Container $container
      *
      * @throws ContainerException
@@ -40,6 +45,7 @@ class RegisterUser
         $this->user = $db->table('user');
         $this->address = $db->table('address');
         $this->points = $db->table('points');
+        $this->car = $db->table('car');
     }
 
     /**
@@ -59,6 +65,14 @@ class RegisterUser
             'user_id' => $user->getId(),
             'points' => 0
         ]);
+
+        if ($request->getParsedBodyParam('have_car', false)) {
+            $this->car->insert([
+                'user_id' => $user->getId(),
+                'have_car' => 1,
+                'available_seats' => $request->getParsedBodyParam('available_seats', 1)
+            ]);
+        }
 
         return $response->withJson($user->toArray());
     }
