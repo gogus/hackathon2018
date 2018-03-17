@@ -2,13 +2,29 @@
 
 require_once __DIR__ . '/../header.php';
 
-$points = $_GET['points'];
+$tokenData = json_decode(base64_decode($_GET['token']), true);
+$points = $tokenData['points'];
+$lat = $tokenData['lat'];
+$lng = $tokenData['lng'];
+$jackpot = (int)$tokenData['jackpot'];
 ?>
 
     <body>
 
     <script>
         var points = <?=$points?>;
+        <?php if ($lat !== null): ?>
+            var lat = "<?=$lat?>";
+        <?php else: ?>
+            var lat = null;
+        <?php endif; ?>
+        <?php if ($lng !== null): ?>
+            var lng = "<?=$lng?>";
+        <?php else: ?>
+            var lng = null;
+        <?php endif; ?>
+
+        var jackpot = <?=$jackpot?>;
     </script>
 
     <header>

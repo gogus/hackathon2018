@@ -13,6 +13,36 @@
     var workLat;
     var workLong;
 
+    function initializeAutocompleteHome(id) {
+        var element = document.getElementById(id);
+        if (element) {
+            var autocomplete = new google.maps.places.Autocomplete(element);
+            google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChangedHome);
+        }
+    }
+
+    function initializeAutocompleteWork(id) {
+        var element = document.getElementById(id);
+        if (element) {
+            var autocomplete = new google.maps.places.Autocomplete(element);
+            google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChangedWork);
+        }
+    }
+
+    function onPlaceChangedHome() {
+        var place = this.getPlace();
+
+        homeLat = place.geometry.location.lat();
+        homeLong = place.geometry.location.lng();
+    }
+
+    function onPlaceChangedWork() {
+        var place = this.getPlace();
+
+        workLat = place.geometry.location.lat();
+        workLong = place.geometry.location.lng();
+    }
+    
     $(document).ready(function(){
         var userData = JSON.parse(window.localStorage.getItem('userData'));
 
@@ -45,43 +75,45 @@
                 
                 localStorage.setItem('userAddress', JSON.stringify(result));
             });
+
+            $("#velohModal").on('shown.bs.modal', function(){
+
+                $.ajax({
+                    type: 'GET',
+                    url: document.api_url + 'api/user/bikepoints/around/home/' + userData.id,
+                    cache: false,
+                    dataType: "json",
+                    contentType: "application/json"
+                })
+                .fail(function(result) {
+                    alert('Invalid response from API.');
+                })
+                .done(function(result) {
+                    var userAddress = JSON.parse(window.localStorage.getItem('userAddress'));
+
+                    map = new GMaps({
+                        div: '#map',
+                        lat: userAddress.home_geo_lat,
+                        lng: userAddress.home_geo_long
+                    });
+
+                    $.each(result.features, function( index, value ) {
+                        console.log(value.geometry.coordinates);
+                        map.addMarker({
+                            lat: value.geometry.coordinates[1],
+                            lng: value.geometry.coordinates[0],
+                            title: 'Velo station',
+                            click: function(e) {
+                                window.location.href = '/?action=ride&token=' + window.btoa('{"points": 7, "lat": "' + value.geometry.coordinates[1] + '", "lng": "' + value.geometry.coordinates[0] + '", "jackpot": true}')
+                            }
+                        });
+                    });
+                });
+            });
         }
 
         if (window.location.href.includes('register')) {
-            function initializeAutocompleteHome(id) {
-                var element = document.getElementById(id);
-                if (element) {
-                    var autocomplete = new google.maps.places.Autocomplete(element);
-                    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChangedHome);
-                }
-            }
 
-            function initializeAutocompleteWork(id) {
-                var element = document.getElementById(id);
-                if (element) {
-                    var autocomplete = new google.maps.places.Autocomplete(element);
-                    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChangedWork);
-                }
-            }
-
-            function onPlaceChangedHome() {
-                var place = this.getPlace();
-
-                homeLat = place.geometry.location.lat();
-                homeLong = place.geometry.location.lng();
-            }
-
-            function onPlaceChangedWork() {
-                var place = this.getPlace();
-
-                workLat = place.geometry.location.lat();
-                workLong = place.geometry.location.lng();
-            }
-
-            google.maps.event.addDomListener(window, 'load', function() {
-                initializeAutocompleteHome('user_input_autocomplete_address_home');
-                initializeAutocompleteWork('user_input_autocomplete_address_work');
-            });
         }
 
         if (window.location.href.includes('ride')) {
@@ -105,8 +137,14 @@
                 lat: -12.043333,
                 lng: -77.028333
             });
+
+            if (lat === null) {
+                lat = addressData.home_geo_lat;
+                lng = addressData.home_geo_long;
+            }
+
             map.travelRoute({
-                origin: [addressData.home_geo_lat, addressData.home_geo_long],
+                origin: [lat, lng],
                 destination: [addressData.work_geo_lat, addressData.work_geo_long],
                 travelMode: 'biking',
                 step: function(e){
@@ -122,8 +160,13 @@
             $('#confirm-btn').click(function(e){
                 e.preventDefault();
 
+                if (lat === null) {
+                    lat = addressData.home_geo_lat;
+                    lng = addressData.home_geo_long;
+                }
+
                 map.travelRoute({
-                    origin: [addressData.home_geo_lat, addressData.home_geo_long],
+                    origin: [lat, lng],
                     destination: [addressData.work_geo_lat, addressData.work_geo_long],
                     travelMode: 'biking',
                     step: function(e){
@@ -159,6 +202,12 @@
             setTimeout(function(){$("#map").css('height', document.body.clientHeight - 150)}, 500);
         }
 
+    });
+
+
+    google.maps.event.addDomListener(window, 'load', function() {
+        initializeAutocompleteHome('user_input_autocomplete_address_home');
+        initializeAutocompleteWork('user_input_autocomplete_address_work');
     });
 </script>
 

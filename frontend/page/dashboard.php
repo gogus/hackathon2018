@@ -17,7 +17,7 @@ require_once __DIR__ . '/../header.php';
                 <a href="#" class="navbar-brand d-flex align-items-center">
                     <strong>#GoToWork</strong>
                 </a>
-                <span class="text-right" style="color: #fff;">Your points: <span id="pointsHeader">n/a</span></span>
+                <span class="text-right" style="color: #fff;">Your points: <i class="fa fa-money"></i> <span id="pointsHeader">n/a</span></span>
             </div>
         </div>
     </header>
@@ -27,9 +27,11 @@ require_once __DIR__ . '/../header.php';
         <section class="jumbotron text-center">
             <div class="container">
                 <h2><i class="fa fa-user"></i></h2><h1 class="jumbotron-heading" id="name">Loading...</h1>
+                <h2> <span class="badge badge-secondary" style="background-color:green;"><i class="fa fa-graduation-cap"></i> Beginner</span></h2>
                 <p class="lead text-muted" id="points">n/a points</p>
                 <p>
-                    <a href="#" class="btn btn-primary my-2">Redeem points</a>
+                    <a href="#" class="btn btn-primary my-2"><i class="fa fa-shopping-cart"></i> Redeem points</a>
+                    <a href="#" class="btn badge-secondary my-2"><i class="fa fa-users"></i> Invite your friends</a>
                     <a href="#" id="btn-logout" class="btn btn-outline-dark my-2">Logout</a>
                 </p>
                 <small class="text-muted">Your home address: <span id="homeAddress">Loading...</span></small><br />
@@ -52,9 +54,10 @@ require_once __DIR__ . '/../header.php';
                                 <p class="card-text">Go by bike! You are so good boy! Gather the points and redeem the points.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="/?action=ride&points=5"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
+                                        <a href="/?action=ride&token=<?=base64_encode(json_encode(['points' => 5, 'jackpot' => false]));?>"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a> &nbsp;
+                                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal" class="velohBtn" data-target="#velohModal">Use Veloh</button>
                                     </div>
-                                    <small class="text-muted">9 mins &nbsp;&nbsp; 5 pts</small>
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> 9 mins &nbsp;&nbsp;<i class="fa fa-money"></i> 5 pts</small>
                                 </div>
                             </div>
                         </div>
@@ -67,10 +70,10 @@ require_once __DIR__ . '/../header.php';
                                 <p class="card-text">Go by car if you must! But remember that you are so lazy! Gather the points and redeem the points.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="/?action=ride&points=2"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
-                                        <button type="button" class="btn btn-sm btn-primary" style="margin-left: 5px;">Share ride</button>
+                                        <a href="/?action=ride&token=<?=base64_encode(json_encode(['points' => 1, 'jackpot' => false]));?>"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
+                                        <button type="button" class="btn btn-sm btn-success" style="margin-left: 5px;">Share ride</button>
                                     </div>
-                                    <small class="text-muted">20 mins &nbsp;&nbsp; 2 pts</small>
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> 20 mins &nbsp;&nbsp;<i class="fa fa-money"></i> 1 pts</small>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +85,22 @@ require_once __DIR__ . '/../header.php';
         </div>
 
     </main>
-
+    <div class="modal fade" id="velohModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Choose veloh station</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="animated flash" style="color: blueviolet;"><i class="fa fa-star"></i> Jackpot unlocked! Use veloh instead of your bike. 2 more points for your ride!</h5>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="text-muted">
         <div class="container">
             <p class="float-right">
