@@ -101,12 +101,21 @@
                     var totalPoints = value.reward_base;
                     var bonusDesc = "";
 
+
+                    console.log(value);
+                    
                     if (value.transport_type == 'bike') {
                         image = '/media/img/bike.jpeg';
                         extraBtn = '<button type="button" class="btn btn-sm btn-success velohBtn" data-toggle="modal" data-target="#velohModal">Use Veloh</button>';
-                        
-                    } else {
+                    }
+
+                    if (value.transport_type == 'shared-car') {
                         image = '/media/img/car.jpg';
+                        extraBtn = '';
+                    }
+
+                    if (value.transport_type == 'own-car') {
+                        image = '/media/img/carbad.jpg';
                         extraBtn = '<button type="button" class="btn btn-sm btn-success" style="margin-left: 5px;">Share ride</button>';
                     }
 

@@ -51,6 +51,15 @@ require_once __DIR__ . '/../header.php';
                 <input name="work_address" type="text" autocomplete="off" class="form-control" id="user_input_autocomplete_address_work" placeholder="1234 Main St" required>
             </div>
 
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <input type="checkbox" name="car_have" id="car_have" value="1" /> Do you have a car?
+                </div>
+                <div class="col-md-10">
+                    <input name="car_places" type="text" autocomplete="off" class="form-control" id="" placeholder="How many places do you have in the car?" required>
+                </div>
+            </div>
+
             <hr class="mb-4">
             <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
         </form>

@@ -49,7 +49,9 @@ $("#form-register").on('submit', function(e) {
                 home_geo_lat: homeLat,
                 home_geo_long: homeLong,
                 work_geo_long: workLong,
-                work_geo_lat: workLat
+                work_geo_lat: workLat,
+                have_car: $("#car_have").is(':checked'),
+                available_seats: $("#car_places").val(),
             }
         ),
         dataType: "json",
