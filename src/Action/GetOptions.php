@@ -83,8 +83,9 @@ class GetOptions
         }
 
         $carNearByOption = $this->getNearByCar($getDirection, $addressData, $args['userId']);
+
         if (!empty($carNearByOption)) {
-            $options[] = $carNearByOption;
+            $options = array_merge($options,$carNearByOption);
         }
 
         //get  the bikes near me
