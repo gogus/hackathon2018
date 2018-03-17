@@ -12,18 +12,22 @@ class BikePointAroundUser extends RepositoryAbstract implements RepositoryInterf
         $db = $this->container->get('db');
         $table = $db->table('address');
         $addressData = $table->where('user_id', '=', $params['userId'])->limit(1)->get()->first();
-        $address = UserAddress::existing((array)$addressData);
+        $address = UserAddress::existing((array)$addressData)->toArray();
 
         $this->client = $this->container->get('bikepoints_around_client');
         $bikePointsHome = $this->client->getData(
-            $address->home_geo_long,
-            $address->home_geo_lat,
-            $radius
+            [
+                'lon' => $address['home_geo_long'],
+                'lat' => $address['home_geo_lat'],
+                'radius' => $radius
+            ]
         );
         $bikePointsWork = $this->client->getData(
-            $address->work_geo_long,
-            $address->work_geo_lat,
-            $radius
+            [
+                'lon' => $address['work_geo_long'],
+                'lat' => $address['work_geo_lat'],
+                'radius' => $radius
+            ]
         );
 
         return [
