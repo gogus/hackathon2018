@@ -64,18 +64,23 @@ return [
     ],
 
     'get-trip' => [
-        'pattern' => '/user/trip/get/{tripId}',
+        'pattern' => '/trip/get/{tripId}',
         'action' => \Gtw\Action\GetTrip::class
     ],
 
     'save-trip' => [
-        'pattern' => '/user/trip/save/{userId}/{date}',
+        'pattern' => '/trip/save/{userId}/{date}',
         'action' => \Gtw\Action\SaveTrip::class
     ],            
 
     'join-trip' => [
-        'pattern' => '/user/trip/join/{tripId}/{userId}',
+        'pattern' => '/trip/join/{tripId}/{userId}',
         'action' => \Gtw\Action\JoinTrip::class
+    ],
+
+    'get-passengers' => [
+        'pattern' => '/passengers/get/{tripId}',
+        'action' => \Gtw\Action\GetPassengers::class
     ],
 
     'get-user-transportation-options' => [
