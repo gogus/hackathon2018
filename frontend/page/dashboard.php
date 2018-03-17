@@ -17,6 +17,7 @@ require_once __DIR__ . '/../header.php';
                 <a href="#" class="navbar-brand d-flex align-items-center">
                     <strong>#GoToWork</strong>
                 </a>
+                <span class="text-right" style="color: #fff;">Your points: <span id="pointsHeader">n/a</span></span>
             </div>
         </div>
     </header>
@@ -25,14 +26,16 @@ require_once __DIR__ . '/../header.php';
 
         <section class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading">Mikolaj Gogula</h1>
-                <p class="lead text-muted">5 points</p>
+                <h2><i class="fa fa-user"></i></h2><h1 class="jumbotron-heading" id="name">Loading...</h1>
+                <p class="lead text-muted" id="points">n/a points</p>
                 <p>
                     <a href="#" class="btn btn-primary my-2">Redeem points</a>
-                    <a href="#" class="btn btn-outline-dark my-2">Logout</a>
+                    <a href="#" id="btn-logout" class="btn btn-outline-dark my-2">Logout</a>
                 </p>
-                <small class="text-muted">Your home address: 29 Rue Nicolas Liez, 1938 Luxembourg</small><br />
-                <small class="text-muted">Your work address: 44 Your Work Rue, 1938 Luxembourg</small>
+                <small class="text-muted">Your home address: <span id="homeAddress">Loading...</span></small><br />
+                <small class="text-muted">Your work address: <span id="workAddress">Loading...</span></small> <br />
+                <br />
+                <h5><i class="fa fa-star"></i> Congratulations! You are trending on #5 position in this week.</h5>
             </div>
         </section>
 
@@ -49,7 +52,7 @@ require_once __DIR__ . '/../header.php';
                                 <p class="card-text">Go by bike! You are so good boy! Gather the points and redeem the points.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="/?action=ride"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
+                                        <a href="/?action=ride&points=5"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
                                     </div>
                                     <small class="text-muted">9 mins &nbsp;&nbsp; 5 pts</small>
                                 </div>
@@ -64,7 +67,7 @@ require_once __DIR__ . '/../header.php';
                                 <p class="card-text">Go by car if you must! But remember that you are so lazy! Gather the points and redeem the points.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="/?action=ride"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
+                                        <a href="/?action=ride&points=2"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
                                         <button type="button" class="btn btn-sm btn-primary" style="margin-left: 5px;">Share ride</button>
                                     </div>
                                     <small class="text-muted">20 mins &nbsp;&nbsp; 2 pts</small>

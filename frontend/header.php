@@ -7,7 +7,7 @@
     <meta name="author" content="Whatever <whatever@emailwillbesoon.lu>">
     <link rel="icon" href="favicon.ico">
 
-    <title>Work :: Login</title>
+    <title>#GoToWork :: Be Green and win prizes</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">

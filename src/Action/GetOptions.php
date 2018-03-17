@@ -13,7 +13,7 @@ use Slim\Http\Response;
 class GetOptions
 {
 
-    const TRANSPORT_TYPES = [
+    private $transportTypes = [
 //        'walk',
         'bike',
         'bus',
@@ -122,7 +122,7 @@ class GetOptions
      */
     private function getRandomTransportType()
     {
-        return self::TRANSPORT_TYPES[array_rand(self::TRANSPORT_TYPES)];
+        return $this->transportTypes[array_rand($this->transportTypes)];
     }
 
     private function getRewardBase($transportType)
