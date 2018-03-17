@@ -1,5 +1,3 @@
-DROP SCHEMA `gtw`;
-CREATE SCHEMA `gtw`;
 USE `gtw`;
 CREATE TABLE `user`
 (
