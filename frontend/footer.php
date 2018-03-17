@@ -4,7 +4,7 @@
 <script src="//maps.google.com/maps/api/js?sensor=true"></script>
 <script type="text/javascript" src="/media/js/gmaps.js"></script>
 <script src="/media/js/bootstrap.min.js"></script>
-<script src="/media/js/apiClient.js"></script>
+<script src="/media/js/apiClient.js?<?= time() ?>"></script>
 
 <script>
     var map;
