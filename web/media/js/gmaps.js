@@ -1684,7 +1684,7 @@ GMaps.prototype.travelRoute = function(options) {
       var steps = options.route.legs[0].steps;
       for (var i = 0, step; step = steps[i]; i++) {
         step.step_number = i;
-        options.step(step);
+        options.step(step, steps.length);
       }
     }
   }

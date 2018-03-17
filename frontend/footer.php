@@ -251,8 +251,8 @@
                     origin: [lat, lng],
                     destination: [addressData.work_geo_lat, addressData.work_geo_long],
                     travelMode: 'biking',
-                    step: function(e){
-                        var isFinished = e.instructions.includes('Destination');
+                    step: function(e, totalSteps){
+                        var isFinished = e.step_number >= totalSteps;
 
                         $("#confirm-box").html('We are tracking you now... Please finish your ride.');
                         $("#confirm-btn").fadeOut('slow');
