@@ -1,13 +1,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/esm/popper.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.js"></script>
-<script src="//maps.google.com/maps/api/js?sensor=true"></script>
+<script src="//maps.google.com/maps/api/js?sensor=true&libraries=places&key=AIzaSyD_k3nyu4lTraCWMIoK0FFd3yRH_o2_Ovc"></script>
 <script type="text/javascript" src="/media/js/gmaps.js"></script>
 <script src="/media/js/bootstrap.min.js"></script>
 <script src="/media/js/apiClient.js?<?= time() ?>"></script>
 
 <script>
     var map;
+    var homeLat;
+    var homeLong;
+    var workLat;
+    var workLong;
+
     $(document).ready(function(){
         var userData = JSON.parse(window.localStorage.getItem('userData'));
 
@@ -39,6 +44,43 @@
                 $("#workAddress").html(result.work_address);
                 
                 localStorage.setItem('userAddress', JSON.stringify(result));
+            });
+        }
+
+        if (window.location.href.includes('register')) {
+            function initializeAutocompleteHome(id) {
+                var element = document.getElementById(id);
+                if (element) {
+                    var autocomplete = new google.maps.places.Autocomplete(element);
+                    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChangedHome);
+                }
+            }
+
+            function initializeAutocompleteWork(id) {
+                var element = document.getElementById(id);
+                if (element) {
+                    var autocomplete = new google.maps.places.Autocomplete(element);
+                    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChangedWork);
+                }
+            }
+
+            function onPlaceChangedHome() {
+                var place = this.getPlace();
+
+                homeLat = place.geometry.location.lat();
+                homeLong = place.geometry.location.lng();
+            }
+
+            function onPlaceChangedWork() {
+                var place = this.getPlace();
+
+                workLat = place.geometry.location.lat();
+                workLong = place.geometry.location.lng();
+            }
+
+            google.maps.event.addDomListener(window, 'load', function() {
+                initializeAutocompleteHome('user_input_autocomplete_address_home');
+                initializeAutocompleteWork('user_input_autocomplete_address_work');
             });
         }
 

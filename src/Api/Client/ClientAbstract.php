@@ -2,14 +2,14 @@
 
 namespace Gtw\Api\Client;
 
+use GuzzleHttp\ClientInterface as Guzzle;
 use Interop\Container\Exception\ContainerException;
 use Slim\Container;
 
-abstract class ClientAbstract {
-
+abstract class ClientAbstract
+{
     /**
-     *
-     * @var GuzzleHttp\ClientInterface
+     * @var Guzzle
      */
     protected $client;
 
@@ -20,7 +20,6 @@ abstract class ClientAbstract {
      */
     public function __construct(Container $container)
     {
-        /** @var Manager $db */
         $this->client = $container->get('guzzle');
     }
 }
