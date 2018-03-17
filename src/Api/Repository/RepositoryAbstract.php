@@ -10,6 +10,12 @@ class RepositoryAbstract {
      */
     protected $container;
     
+    /**
+     *
+     * @var \Gtw\Api\Client\BikePointAround
+     */
+    protected $client;
+
     public function __construct(Container $container) {
         $this->container = $container;
     }

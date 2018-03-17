@@ -52,14 +52,14 @@ return [
         'action' => \Gtw\Action\GetUserCar::class
     ],
 
-    'save-user-schedule' => [
+    'save-user-car' => [
         'method' => 'POST',
         'pattern' => '/user/car/{userId}',
         'action' => \Gtw\Action\SaveUserCar::class
     ],
 
     'get-bikepoints-around' => [
-        'pattern' => '/user/bikepoints/around/{userId}',
+        'pattern' => '/user/bikepoints/around/{place}/{userId}',
         'action' => \Gtw\Action\GetBikePointsAround::class
     ],
 
