@@ -28,4 +28,9 @@ return [
         'action' => \Gtw\Action\PatchUserPoints::class
     ],
 
+    'register-user' => [
+        'method' => 'POST',
+        'pattern' => '/user',
+        'action' => \Gtw\Action\RegisterUser::class,
+    ],
 ];

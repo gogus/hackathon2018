@@ -4,9 +4,9 @@ namespace Gtw\Action;
 
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Query\Builder;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Interop\Container\Exception\ContainerException;
 use Slim\Container;
+use Slim\Http\Request;
 use Slim\Http\Response;
 
 class GetUserPoints
@@ -18,6 +18,8 @@ class GetUserPoints
 
     /**
      * @param Container $container
+     *
+     * @throws ContainerException
      */
     public function __construct(Container $container)
     {
@@ -26,11 +28,21 @@ class GetUserPoints
         $this->table = $db->table('points');
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args = [])
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response
+     */
+    public function __invoke(Request $request, Response $response, array $args = [])
     {
-        /** @var Response $response */
-        $user = $this->table->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
+        $points = $this->table
+            ->where('user_id', '=', $args['userId'])
+            ->limit(1)
+            ->get()
+            ->first();
 
-        return $response->withJson($user);
+        return $response->withJson($points);
     }
 }
