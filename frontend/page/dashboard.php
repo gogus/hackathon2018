@@ -49,7 +49,7 @@ require_once __DIR__ . '/../header.php';
                                 <p class="card-text">Go by bike! You are so good boy! Gather the points and redeem the points.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-primary">#GoToWork</button>
+                                        <a href="/?action=ride"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
                                     </div>
                                     <small class="text-muted">9 mins &nbsp;&nbsp; 5 pts</small>
                                 </div>
@@ -64,7 +64,7 @@ require_once __DIR__ . '/../header.php';
                                 <p class="card-text">Go by car if you must! But remember that you are so lazy! Gather the points and redeem the points.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-primary">#GoToWork</button>
+                                        <a href="/?action=ride"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a>
                                         <button type="button" class="btn btn-sm btn-primary" style="margin-left: 5px;">Share ride</button>
                                     </div>
                                     <small class="text-muted">20 mins &nbsp;&nbsp; 2 pts</small>

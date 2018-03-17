@@ -87,3 +87,61 @@ footer p {
 }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+
+#map {
+    width: 100%;
+    height: 700px;
+}
+
+#confirm-btn {
+    position: absolute;
+    top: 292px;
+    opacity: 0.8;
+    left: 174px;
+}
+
+#confirm-box {
+    background-color: gray;
+    width: 289px;
+    position: absolute;
+    border: 1px #000 solid;
+    top: 175px;
+    left: 101px;
+    opacity: 0.8;
+    color: white;
+    padding: 5px 5px;
+    border-radius: 5px;
+}
+
+#money-box {
+    background-color: gray;
+    width: 289px;
+    position: absolute;
+    border: 1px #000 solid;
+    top: 103px;
+    left: 101px;
+    opacity: 1.0;
+    color: white;
+    padding: 5px 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#pro-award {
+    top: 43%;
+    position: absolute;
+    right: 0;
+    left: 37%;
+    font-size: 50px;
+    font-weight: 900;
+    color: green;
+    text-shadow: 4px 1px 6px rgba(144, 150, 150, 1);
+}
+
+#go-to-dashboard {
+    top: 54%;
+    position: absolute;
+    right: 0;
+    left: 45%;
+}
