@@ -2,6 +2,7 @@
 
 namespace Gtw\Action;
 
+use Gtw\Entity\User;
 use Gtw\Entity\UserAddress;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Query\Builder;
@@ -10,12 +11,17 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class GetUserAddress
+class RegisterUser
 {
     /**
      * @var Builder
      */
-    protected $table;
+    protected $user;
+
+    /**
+     * @var Builder
+     */
+    protected $address;
 
     /**
      * @param Container $container
@@ -26,7 +32,8 @@ class GetUserAddress
     {
         /** @var Manager $db */
         $db = $container->get('db');
-        $this->table = $db->table('address');
+        $this->user = $db->table('user');
+        $this->address = $db->table('address');
     }
 
     /**
@@ -38,9 +45,11 @@ class GetUserAddress
      */
     public function __invoke(Request $request, Response $response, array $args = [])
     {
-        $addressData = $this->table->where('user_id', '=', $args['userId'])->limit(1)->get()->first();
-        $address = UserAddress::existing((array)$addressData);
+        $user = User::create($request->getParsedBody());
+        $this->user->insert($user->toArray());
+        $address = UserAddress::create($user->getId(), $request->getParsedBody());
+        $this->address->insert($address->toArray());
 
-        return $response->withJson($address->toArray());
+        return $response->withJson($user->toArray());
     }
 }
