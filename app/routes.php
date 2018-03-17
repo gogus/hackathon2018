@@ -52,7 +52,7 @@ return [
         'action' => \Gtw\Action\GetUserCar::class
     ],
 
-    'save-user-schedule' => [
+    'save-user-car' => [
         'method' => 'POST',
         'pattern' => '/user/car/{userId}',
         'action' => \Gtw\Action\SaveUserCar::class
