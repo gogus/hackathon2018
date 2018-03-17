@@ -21,7 +21,7 @@
 					"raw": "{\n\t\"username\": \"xavier\",\n\t\"password\": \"xavier\",\n\t\"first_name\": \"Xavier\",\n\t\"last_name\": \"Bettel\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/user",
+					"raw": "http://localhost:8080/api/user/register",
 					"protocol": "http",
 					"host": [
 						"localhost"

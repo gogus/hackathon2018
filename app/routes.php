@@ -32,7 +32,7 @@ return [
 
     'register-user' => [
         'method' => 'POST',
-        'pattern' => '/user',
+        'pattern' => '/user/register',
         'action' => \Gtw\Action\RegisterUser::class
     ],
 ];
