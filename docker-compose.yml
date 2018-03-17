@@ -18,5 +18,3 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: gtw
-    volumes:
-      - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
