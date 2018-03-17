@@ -14,7 +14,7 @@ class CreateTrip extends Migration
         $schemaBuilder->create('trip', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('driver', 100);
-            $table->time('start_time');
+            $table->datetime('start_time');
             $table->string('start_address', 200);
             $table->string('destination_address', 200);
             $table->string('start_geo_lat', 100);

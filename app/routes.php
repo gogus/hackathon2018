@@ -63,6 +63,16 @@ return [
         'action' => \Gtw\Action\GetBikePointsAround::class
     ],
 
+    'get-trip' => [
+        'pattern' => '/user/trip/get/{tripId}',
+        'action' => \Gtw\Action\GetTrip::class
+    ],
+
+    'save-trip' => [
+        'pattern' => '/user/trip/save/{userId}/{date}',
+        'action' => \Gtw\Action\SaveTrip::class
+    ],            
+
     'get-user-transportation-options' => [
         'pattern' => '/user/transport-options/{userId}',
         'action' => \Gtw\Action\GetOptions::class
