@@ -24,7 +24,7 @@ CREATE TABLE `address`
   `work_geo` VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
 
-INSERT INTO `address` (`user_id`, ) VALUES
+INSERT INTO `address` (`user_id`, `home_address`, `work_address`, `home_geo`, `work_geo`) VALUES
 ('725a7f14-ed1a-45e2-b82c-24736c673429', 'Eurener Straße, Trier, Germany', '44 Avenue John F. Kennedy, Luxembourg', '', ''),
 ('2929d8a4-7c3a-4fbc-a564-126aece71447', "Route d'Arlon, Luxembourg", '44 Avenue John F. Kennedy, Luxembourg', '', ''),
 ('e1346b39-671c-4f46-93e6-41b70a482594', 'Luxemburger Straße, Trier, Germany', '44 Avenue John F. Kennedy, Luxembourg', '', ''),
