@@ -47,6 +47,8 @@
         var userData = JSON.parse(window.localStorage.getItem('userData'));
 
         if (window.location.href.includes('dashboard')) {
+            var bikeResults;
+
             $("#name").html(userData.first_name + ' ' + userData.last_name);
 
             $.ajax({
@@ -60,6 +62,10 @@
                 $("#points").html(result.points + ' points');
                 $("#pointsHeader").html(result.points);
                 localStorage.setItem('points', result.points);
+
+                if (result.points > 0) {
+                    $('#topStar').fadeIn('slow');
+                }
             });
 
             $.ajax({
@@ -76,7 +82,66 @@
                 localStorage.setItem('userAddress', JSON.stringify(result));
             });
 
-            $("#velohModal").on('shown.bs.modal', function(){
+
+            $.ajax({
+                type: 'GET',
+                url: document.api_url + 'api/user/transport-options/' + userData.id,
+                cache: false,
+                dataType: "json",
+                contentType: "application/json"
+            })
+            .fail(function(result) {
+                alert('Invalid response from API.');
+            })
+            .done(function(result) {
+                $.each(result, function( index, value ) {
+                    var image;
+                    var extraBtn;
+                    var token = {};
+                    var totalPoints = value.reward_base;
+                    var bonusDesc = "";
+
+                    if (value.transport_type == 'bike') {
+                        image = '/media/img/bike.jpeg';
+                        extraBtn = '<button type="button" class="btn btn-sm btn-success velohBtn" data-toggle="modal" data-target="#velohModal">Use Veloh</button>';
+                        
+                    } else {
+                        image = '/media/img/car.jpg';
+                        extraBtn = '<button type="button" class="btn btn-sm btn-success" style="margin-left: 5px;">Share ride</button>';
+                    }
+
+                    $.each(value.reward_bonuses, function (index, value) {
+                        if (bonusDesc == "") {
+                            bonusDesc = "<br /><strong>Bonuses</strong>: <br />";
+                        }
+
+                        totalPoints = totalPoints + value.bonus_amount;
+                        bonusDesc = bonusDesc + value.bonus_type + ' +' + value.bonus_amount + ' pts.';
+                    });
+
+                    token.points = totalPoints;
+                    token.jackpot = false;
+                    
+                    $('#possibilities').html(
+                        $('#possibilities').html() +
+                        '      <div class="col-md-4">\n' +
+                        '                        <div class="card mb-4 box-shadow">\n' +
+                        '                            <img class="card-img-top"  src="' + image + '" >\n' +
+                        '                            <div class="card-body">\n' +
+                        '                                <p class="card-text">' + value.option_description + '<br />' + bonusDesc + '</p>\n' +
+                        '                                <div class="d-flex justify-content-between align-items-center">\n' +
+                        '                                    <div class="btn-group">\n' +
+                        '                                        <a href="/?action=ride&token=' + window.btoa(JSON.stringify(token)) + '"><button type="button" class="btn btn-sm btn-primary">#GoToWork</button></a> &nbsp;\n' +
+                        '                                        \n' + extraBtn +
+                        '                                    </div>\n' +
+                        '                                    <small class="text-muted"><i class="fa fa-clock-o"></i> 9 mins &nbsp;&nbsp;<i class="fa fa-money"></i> ' + totalPoints + ' pts</small>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>'
+                    );
+                });
+
 
                 $.ajax({
                     type: 'GET',
@@ -85,28 +150,36 @@
                     dataType: "json",
                     contentType: "application/json"
                 })
-                .fail(function(result) {
-                    alert('Invalid response from API.');
-                })
-                .done(function(result) {
-                    var userAddress = JSON.parse(window.localStorage.getItem('userAddress'));
-
-                    map = new GMaps({
-                        div: '#map',
-                        lat: userAddress.home_geo_lat,
-                        lng: userAddress.home_geo_long
+                    .fail(function(result) {
+                        alert('Invalid response from API.');
+                    })
+                    .done(function(result) {
+                        if (result.features.length == 0) {
+                            $('.velohBtn').hide();
+                        } else {
+                            bikeResults = result;
+                        }
                     });
+            });
 
-                    $.each(result.features, function( index, value ) {
-                        console.log(value.geometry.coordinates);
-                        map.addMarker({
-                            lat: value.geometry.coordinates[1],
-                            lng: value.geometry.coordinates[0],
-                            title: 'Velo station',
-                            click: function(e) {
-                                window.location.href = '/?action=ride&token=' + window.btoa('{"points": 7, "lat": "' + value.geometry.coordinates[1] + '", "lng": "' + value.geometry.coordinates[0] + '", "jackpot": true}')
-                            }
-                        });
+            $("#velohModal").on('shown.bs.modal', function(){
+                var userAddress = JSON.parse(window.localStorage.getItem('userAddress'));
+
+                map = new GMaps({
+                    div: '#map',
+                    lat: userAddress.home_geo_lat,
+                    lng: userAddress.home_geo_long
+                });
+
+                $.each(bikeResults.features, function( index, value ) {
+                    console.log(value.geometry.coordinates);
+                    map.addMarker({
+                        lat: value.geometry.coordinates[1],
+                        lng: value.geometry.coordinates[0],
+                        title: 'Velo station',
+                        click: function(e) {
+                            window.location.href = '/?action=ride&token=' + window.btoa('{"points": 200, "lat": "' + value.geometry.coordinates[1] + '", "lng": "' + value.geometry.coordinates[0] + '", "jackpot": true}')
+                        }
                     });
                 });
             });
